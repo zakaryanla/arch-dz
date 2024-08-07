@@ -1,2 +1,0 @@
-# arch-dz
-arch-dz
