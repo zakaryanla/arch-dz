@@ -4,27 +4,14 @@ import os
 from flask import Flask,Response, request
 from psycopg2.extras import RealDictCursor
 
-
 app = Flask(__name__)
-
-DATABASE_CONFIG = { 
-    "database": os.environ.get("DB_DATABASE"), 
-    "user": os.environ.get("DB_USER"), 
-    "password": os.environ.get("DB_PASS"), 
-    "host": os.environ.get("DB_URL"), 
-    "port":  os.environ.get("DB_PORT"), 
-} 
 
 def check_user(column, username):
     query_select = f"""SELECT * FROM users where {column} = '{username}' """
     return execute(query_select, False)
 
 def execute(query, comm: bool):
-    conn = psycopg2.connect(database=DATABASE_CONFIG.get('database'), 
-        user=DATABASE_CONFIG.get('user'), 
-        password=DATABASE_CONFIG.get('password'), 
-        host=DATABASE_CONFIG.get('host'), 
-        port=DATABASE_CONFIG.get('port'))
+    conn = psycopg2.connect('')
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(query)
     if comm:
