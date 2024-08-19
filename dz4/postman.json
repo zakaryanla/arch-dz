@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "f63f91e9-d4c1-4dd5-8fc2-8a293fbe6003",
 		"name": "User Service",
-		"description": "",
+		"description": "This is simple client API\n\n\nContact Support:\n Email: schetinnikov@gmail.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "37766344"
 	},
@@ -31,7 +31,7 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Body matches string\", function () {",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
 											"    pm.expect(pm.response.text()).to.include(\"id\");",
 											"});"
 										],
@@ -82,8 +82,8 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Body matches string\", function () {\r",
-											"    pm.expect(pm.response.text()).to.include(\"TestNumber\");\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"        pm.expect(pm.response.text()).to.include(\"TestNumber\");\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -131,7 +131,7 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Body matches string\", function () {",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
 											"    pm.expect(pm.response.text()).to.include(\"Данные пользователя обновлены\");",
 											"});"
 										],
@@ -194,7 +194,7 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Body matches string\", function () {\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
 											"    pm.expect(pm.response.text()).to.include(\"ОбновленноеИмя\");\r",
 											"});"
 										],
@@ -243,7 +243,7 @@
 											"    pm.response.to.have.status(200);",
 											"});",
 											"",
-											"pm.test(\"Body matches string\", function () {",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
 											"    pm.expect(pm.response.text()).to.include(\"удален\");",
 											"});"
 										],
@@ -292,7 +292,7 @@
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
 											"\r",
-											"pm.test(\"Body matches string\", function () {\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
 											"    pm.expect(pm.response.text()).to.include(\"не найден\");\r",
 											"});"
 										],
@@ -361,6 +361,11 @@
 		{
 			"key": "baseUrl",
 			"value": "http://arch.homework/api/v1/"
+		},
+		{
+			"key": "id",
+			"value": "1",
+			"type": "string"
 		}
 	]
 }
