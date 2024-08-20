@@ -67,21 +67,12 @@ def update_user(user_id):
     
     column = ["firstName","lastName","email","phone"]
     set = ""
-    n = 1
-    m = 0
 
     for i in data:
         if i in column:
-            m+=1
+            set += f""" {i} = '{data[i]}',"""
+    set = set[:-1]
 
-    for i in data:
-        if i in column:
-            if n == m:
-                set += f""" {i} = '{data[i]}' """
-            else:
-                set += f""" {i} = '{data[i]}', """
-            n+=1
-    
     query_update = f"update users set {set} where id = {user_id}"
     execute(query_update, True)
     return json.dumps({"message": "Данные пользователя обновлены "},ensure_ascii = False)
