@@ -1,7 +1,0 @@
-global:
-  postgresql:
-    auth:
-      postgresPassword: "pg"
-      username: "crudapi"
-      password: "a2dvxX32fds"
-      database: "crudapi"

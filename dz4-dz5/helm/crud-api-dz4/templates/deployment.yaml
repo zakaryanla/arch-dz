@@ -11,6 +11,12 @@ spec:
       app.kubernetes.io/name: {{ include "crud-api-dz4.fullname" . }}
   template:
     metadata:
+      {{- if .Values.metrics.enabled }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: {{ .Values.metrics.path | default "/metrics" }}
+        prometheus.io/port: "{{ .Values.metrics.port | default 8080 }}"
+      {{- end }}
       labels:
         app.kubernetes.io/name: {{ include "crud-api-dz4.fullname" . }}
     spec:
