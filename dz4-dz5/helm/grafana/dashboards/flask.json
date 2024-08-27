@@ -20,7 +20,6 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 19191,
   "graphTooltip": 0,
-  "id": 3,
   "links": [],
   "panels": [
     {
@@ -73,7 +72,7 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -198,8 +197,8 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "bars",
-            "fillOpacity": 100,
+            "drawStyle": "line",
+            "fillOpacity": 27,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -217,7 +216,7 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "normal"
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -340,7 +339,7 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "barAlignment": 0,
+            "barAlignment": -1,
             "drawStyle": "bars",
             "fillOpacity": 100,
             "gradientMode": "none",
@@ -351,16 +350,16 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
+            "lineWidth": 2,
+            "pointSize": 6,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "never",
+            "showPoints": "auto",
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "normal"
+              "mode": "none"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -471,11 +470,11 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile / 100, sum(rate(flask_http_request_duration_seconds_bucket{pod=~\"$pod\", app_kubernetes_io_name=\"$deployment\"}[$interval])) by (le, method, app_kubernetes_io_name ))",
+          "expr": "histogram_quantile($percentile / 100, \r\n  sum without (pod,instance)(\r\n    rate(flask_http_request_duration_seconds_bucket{pod=~\"$pod\", app_kubernetes_io_name=\"$deployment\",status=\"200\"}[$interval])\r\n  )\r\n)\r\n",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ app_kubernetes_io_name }} {{method }} latency",
+          "legendFormat": "{{ method }} {{ pod_template_hash }} latency",
           "range": true,
           "refId": "A"
         }
@@ -751,7 +750,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(flask_http_request_total{status=~\"$error_code\", pod=~\"$pod\", method=~\"$method\", app_kubernetes_io_name=\"$deployment\"}) by (app_kubernetes_io_name, method)",
+          "expr": "sum(flask_http_request_total{status=~\"4..|5..\", pod=~\"$pod\", method=~\"$method\", app_kubernetes_io_name=\"$deployment\"}) by (app_kubernetes_io_name, method, status)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -761,306 +760,6 @@
         }
       ],
       "title": "4xx, 5xx errors count",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "max": 1,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 0,
-        "y": 19
-      },
-      "id": 9,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "uid": "Prometheus"
-          },
-          "editorMode": "code",
-          "expr": "rate(process_cpu_seconds_total{pod=~\"$pod\",app_kubernetes_io_name=\"$deployment\"}[$interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ pod }} cpu",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "CPU usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 8,
-        "y": 19
-      },
-      "id": 8,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "uid": "Prometheus"
-          },
-          "editorMode": "code",
-          "expr": "process_resident_memory_bytes{pod=~\"$pod\", app_kubernetes_io_name=\"$deployment\"}",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{pod}} memory",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Memory usage",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "description": "Number of open file descriptors",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 8,
-        "x": 16,
-        "y": 19
-      },
-      "id": 17,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "uid": "Prometheus"
-          },
-          "editorMode": "code",
-          "expr": "(process_open_fds{pod=~\"$pod\",app_kubernetes_io_name=\"$deployment\"})",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{ pod }}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Open File Descriptors",
       "type": "timeseries"
     }
   ],
@@ -1074,6 +773,33 @@
   ],
   "templating": {
     "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "crud-api-dz4-55cf44bb6b",
+          "value": "crud-api-dz4-55cf44bb6b"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
+        },
+        "definition": "query_result(kube_replicaset_spec_replicas{replicaset=~\"$deployment.*\"}>0)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "rc",
+        "options": [],
+        "query": {
+          "qryType": 3,
+          "query": "query_result(kube_replicaset_spec_replicas{replicaset=~\"$deployment.*\"}>0)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/.*replicaset=\\\"(?<text>.*)\\\"\\,service.*/",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
       {
         "auto": false,
         "auto_count": 30,
@@ -1145,9 +871,13 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "crud-api-dz4",
           "value": "crud-api-dz4"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "PBFA97CFB590B2093"
         },
         "definition": "label_values(flask_exporter_info,app_kubernetes_io_name)",
         "hide": 0,
@@ -1168,7 +898,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "All"
           ],
@@ -1193,14 +923,14 @@
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
-        "regex": "",
+        "regex": "/$rc/",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": [
             "All"
           ],
@@ -1233,8 +963,8 @@
       {
         "current": {
           "selected": true,
-          "text": "100",
-          "value": "100"
+          "text": "95",
+          "value": "95"
         },
         "hide": 0,
         "includeAll": false,
@@ -1243,7 +973,7 @@
         "name": "percentile",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "100",
             "value": "100"
           },
@@ -1253,7 +983,7 @@
             "value": "99"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "95",
             "value": "95"
           },
@@ -1267,34 +997,6 @@
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "404",
-          "value": "404"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "definition": "label_values(flask_http_request_total,status)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Status code 4xx or 5xx",
-        "multi": false,
-        "name": "error_code",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(flask_http_request_total,status)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "4..|5..",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
       }
     ]
   },
@@ -1321,6 +1023,6 @@
   "timezone": "",
   "title": "Flask Web App",
   "uid": "u_DVKhQiz",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }

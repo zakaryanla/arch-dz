@@ -3,13 +3,13 @@ import psycopg2
 import os
 from flask import Flask,Response, request
 from psycopg2.extras import RealDictCursor
-from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_flask_exporter.multiprocess import GunicornPrometheusMetrics
 
 def url(req):
     return '%s' % (req.url_rule)
 
 app = Flask(__name__)
-metrics = PrometheusMetrics(app, group_by=url)
+metrics = GunicornPrometheusMetrics(app, group_by=url)
 
 def check_user(column, username):
     query_select = f"""SELECT * FROM users where {column} = '{username}' """

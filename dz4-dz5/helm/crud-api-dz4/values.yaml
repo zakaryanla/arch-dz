@@ -5,13 +5,13 @@ replicaCount: 5
 
 image:
   repository: zakaryanla/crud-api-dz4
-  pullPolicy: IfNotPresent
-  tag: "2.0"
+  pullPolicy: Always
+  tag: "3.0"
 
 metrics:
   enabled: true
   path: /metrics
-  port: "5000"
+  port: "8000"
 
 imagePullSecrets: []
 
@@ -19,6 +19,7 @@ config:
   PGHOST: 'crud-db-postgresql'
   PGPORT: '5432'
   PGDATABASE: crudapi
+  GUNICORN_PROCESSES: "3"
 
 secrets:
   PGUSER: crudapi
@@ -30,7 +31,7 @@ migrate:
 
 resources:
   limits:
-    cpu: "500m"
+    cpu: "1"
     memory: "512Mi"
   requests:
     cpu: 100m
@@ -62,17 +63,17 @@ readinessProbe:
     port: 5000
     scheme: HTTP
   initialDelaySeconds: 10
-  timeoutSeconds: 5
-  periodSeconds: 10
+  timeoutSeconds: 10
+  periodSeconds: 30
   successThreshold: 2
-  failureThreshold: 3
+  failureThreshold: 4
 livenessProbe:
   httpGet:
     path: /api/v1/user/1
     port: 5000
     scheme: HTTP
   initialDelaySeconds: 10
-  timeoutSeconds: 5
-  periodSeconds: 10
+  timeoutSeconds: 10
+  periodSeconds: 30
   successThreshold: 1
-  failureThreshold: 5
+  failureThreshold: 8

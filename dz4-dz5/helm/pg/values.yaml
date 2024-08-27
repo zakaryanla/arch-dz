@@ -6,6 +6,14 @@ global:
       username: "crudapi"
       password: "a2dvxX32fds"
       database: "crudapi"
+primary:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 2
+      memory: 2048Mi
 
 metrics:
   enabled: true
