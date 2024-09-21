@@ -1,5 +1,5 @@
 <h3>Архитектура</h3>
-<img width="1439" alt="flask" src="https://github.com/user-attachments/assets/17207d1e-4c2e-4680-93fb-7b8b62654045">
+<img width="1439" alt="flask" src="https://github.com/user-attachments/assets/edb0d8c7-ffd6-478f-8767-425da2e070d6">
 <h3>Установка</h3>
 <h4>CRUD</h4>
 <body>
