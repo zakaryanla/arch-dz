@@ -1,4 +1,4 @@
-# helm upgrade --install crud-api-dz4 helm\crud-api-dz4
+# helm upgrade --install crud-api-dz4 helm\crud-api-dz4 -n default
 fullnameOverride: "crud-api-dz4"
 
 replicaCount: 1
