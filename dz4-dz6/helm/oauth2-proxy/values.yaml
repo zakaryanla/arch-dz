@@ -1,0 +1,26 @@
+# helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
+# helm upgrade --install oauth2-proxy oauth2-proxy/oauth2-proxy --version 7.7.19 --namespace kk -f helm\oauth2-proxy\values.yaml
+
+extraArgs:
+  - --provider=keycloak-oidc
+  - --client-id=oauth2proxy
+  - --client-secret=kBC3EGK3dLM2Uk7U6jY94grKtnMMqWi7
+  - --redirect-url=http://arch.homework/oauth2/callback
+  - --oidc-issuer-url=http://arch-kk.homework/realms/app
+  - --cookie-secure=false
+  - --set-xauthrequest=true
+  - --set-authorization-header=true
+  - --whitelist-domain=arch.homework
+  - --insecure-oidc-allow-unverified-email
+  - --skip-jwt-bearer-tokens=true
+ingress: 
+  enabled: true
+  hosts:
+    - arch.homework
+  className: nginx
+  path: /oauth2
+
+hostAliases:
+  - ip: "10.104.253.37"
+    hostnames:
+      - "arch-kk.homework"

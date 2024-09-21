@@ -1,12 +1,24 @@
+<h3>Архитектура</h3>
+<img width="1439" alt="flask" src="https://github.com/user-attachments/assets/17207d1e-4c2e-4680-93fb-7b8b62654045">
 <h3>Установка</h3>
 <h4>CRUD</h4>
 <body>
-<code>helm upgrade --install crud-api-dz4 C:\Users\zakar\Documents\arch-dz\dz4-dz5\helm\crud-api-dz4</code>
+<code>helm upgrade --install crud-api-dz4 helm\crud-api-dz4</code>
 <body/>
 
 <h4>Ingress</h4>
 <code>helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
 helm install nginx ingress-nginx/ingress-nginx --namespace m -f values.yaml
+</code>
+
+<h4>Oauth2-proxy</h4>
+<code>helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
+helm upgrade --install oauth2-proxy oauth2-proxy/oauth2-proxy --version 7.7.19 --namespace kk -f helm\oauth2-proxy\values.yaml
+</code>
+
+<h4>Keycloak</h4>
+<code>helm repo add bitnami https://charts.bitnami.com/bitnami
+helm upgrade -install keycloak bitnami/keycloak --version 22.2.4 --namespace kk -f helm\keycloak\values.yaml
 </code>
 
 <h4>PostgreSQL</h4>

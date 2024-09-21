@@ -1,0 +1,1222 @@
+{
+	"info": {
+		"_postman_id": "f63f91e9-d4c1-4dd5-8fc2-8a293fbe6003",
+		"name": "User Service",
+		"description": "This is simple client API\n\n\nContact Support:\n Email: schetinnikov@gmail.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37766344"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "Get admin token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(pm.response.text());\r",
+									"pm.collectionVariables.set(\"tokenAdmin\", jsonData[\"access_token\"]);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "crud",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "crud",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "sadsfASdcsdf",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "Y9BkXRzSKdKbVqaC07nBUgJpOJbVZu4t",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://arch-kk.homework/realms/app/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"arch-kk",
+								"homework"
+							],
+							"path": [
+								"realms",
+								"app",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "User1",
+					"item": [
+						{
+							"name": "User registration",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var username1 = pm.variables.replaceIn('{{$randomUserName}}')\r",
+											"var password1 =  pm.variables.replaceIn('{{$randomPassword}}')\r",
+											"\r",
+											"pm.collectionVariables.set(\"username1\", username1)\r",
+											"pm.collectionVariables.set(\"password1\", password1)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Зарегистрирован: \" + pm.collectionVariables.get('username1'), function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{username1}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"enabled\": true,\r\n  \"firstName\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"credentials\": [{\r\n    \"type\": \"password\",\r\n    \"value\": \"{{password1}}\"\r\n  }],\r\n  \"attributes\": {\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://arch-kk.homework/admin/realms/app/users",
+									"protocol": "http",
+									"host": [
+										"arch-kk",
+										"homework"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"app",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token1\", jsonData[\"access_token\"]);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Зашел: \" + pm.collectionVariables.get('username1'), function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "client_id",
+											"value": "oauth2proxy",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "{{username1}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{password1}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "kBC3EGK3dLM2Uk7U6jY94grKtnMMqWi7",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://arch-kk.homework/realms/app/protocol/openid-connect/token",
+									"protocol": "http",
+									"host": [
+										"arch-kk",
+										"homework"
+									],
+									"path": [
+										"realms",
+										"app",
+										"protocol",
+										"openid-connect",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get id by token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + jsonData[\"id\"], function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"userid1\", jsonData[\"id\"]);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token1}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://arch.homework/api/callback?uri=/api/getId",
+									"protocol": "http",
+									"host": [
+										"arch",
+										"homework"
+									],
+									"path": [
+										"api",
+										"callback"
+									],
+									"query": [
+										{
+											"key": "uri",
+											"value": "/api/getId"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get info by id without token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Sign in to your account\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Returns a user based on a single ID, if the user does not have access to the user"
+							},
+							"response": []
+						},
+						{
+							"name": "Get info by id with token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Returns a user based on a single ID, if the user does not have access to the user"
+							},
+							"response": []
+						},
+						{
+							"name": "Update User without token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Sign in to your account\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lastName\": \"ОбновленнаяФамилия\",\n  \"email\": \"mailupdate@doe.com\",\n  \"phone\": \"+71002003040\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Update user with User ID supplied"
+							},
+							"response": []
+						},
+						{
+							"name": "update User with token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Данные пользователя обновлены\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lastName\": \"ОбновленнаяФамилия\",\n  \"email\": \"mailupdate@doe.com\",\n  \"phone\": \"+71002003040\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Update user with User ID supplied"
+							},
+							"response": []
+						},
+						{
+							"name": "Check update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"ОбновленнаяФамилия\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Returns a user based on a single ID, if the user does not have access to the user"
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "User2",
+					"item": [
+						{
+							"name": "User registration",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var username1 = pm.variables.replaceIn('{{$randomUserName}}')\r",
+											"var password1 =  pm.variables.replaceIn('{{$randomPassword}}')\r",
+											"\r",
+											"pm.collectionVariables.set(\"username1\", username1)\r",
+											"pm.collectionVariables.set(\"password1\", password1)"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Зарегистрирован: \" + pm.collectionVariables.get('username1'), function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"{{username1}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"enabled\": true,\r\n  \"firstName\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"credentials\": [{\r\n    \"type\": \"password\",\r\n    \"value\": \"{{password1}}\"\r\n  }],\r\n  \"attributes\": {\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://arch-kk.homework/admin/realms/app/users",
+									"protocol": "http",
+									"host": [
+										"arch-kk",
+										"homework"
+									],
+									"path": [
+										"admin",
+										"realms",
+										"app",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.collectionVariables.set(\"token1\", jsonData[\"access_token\"]);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Зашел: \" + pm.collectionVariables.get('username1'), function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "client_id",
+											"value": "oauth2proxy",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "scope",
+											"value": "openid",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "{{username1}}",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "{{password1}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "kBC3EGK3dLM2Uk7U6jY94grKtnMMqWi7",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://arch-kk.homework/realms/app/protocol/openid-connect/token",
+									"protocol": "http",
+									"host": [
+										"arch-kk",
+										"homework"
+									],
+									"path": [
+										"realms",
+										"app",
+										"protocol",
+										"openid-connect",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get id by token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + jsonData[\"id\"], function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"});\r",
+											"\r",
+											"pm.collectionVariables.set(\"userid2\", jsonData[\"id\"]);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token1}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://arch.homework/api/callback?uri=/api/getId",
+									"protocol": "http",
+									"host": [
+										"arch",
+										"homework"
+									],
+									"path": [
+										"api",
+										"callback"
+									],
+									"query": [
+										{
+											"key": "uri",
+											"value": "/api/getId"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get info by other id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Отсутствуют права\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Returns a user based on a single ID, if the user does not have access to the user"
+							},
+							"response": []
+						},
+						{
+							"name": "Get info by current id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid2}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Returns a user based on a single ID, if the user does not have access to the user"
+							},
+							"response": []
+						},
+						{
+							"name": "Update User by other id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Отсутствуют права\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lastName\": \"ОбновленнаяФамилия\",\n  \"email\": \"mailupdate@doe.com\",\n  \"phone\": \"+71002003040\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid1}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Update user with User ID supplied"
+							},
+							"response": []
+						},
+						{
+							"name": "update User by current id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Ответ: \" + responseBody, function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Данные пользователя обновлены\");",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"lastName\": \"ОбновленнаяФамилия\",\n  \"email\": \"mailupdate@doe.com\",\n  \"phone\": \"+71002003040\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid2}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Update user with User ID supplied"
+							},
+							"response": []
+						},
+						{
+							"name": "Check update",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Ответ: \" + responseBody, function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"ОбновленнаяФамилия\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/user/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "{{userid2}}",
+											"description": "(Required) ID of user"
+										}
+									]
+								},
+								"description": "Returns a user based on a single ID, if the user does not have access to the user"
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{token1}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://arch.homework/api/v1/"
+		},
+		{
+			"key": "username1",
+			"value": ""
+		},
+		{
+			"key": "password1",
+			"value": ""
+		},
+		{
+			"key": "token1",
+			"value": ""
+		},
+		{
+			"key": "userid1",
+			"value": ""
+		},
+		{
+			"key": "userid2",
+			"value": ""
+		},
+		{
+			"key": "tokenAdmin",
+			"value": ""
+		}
+	]
+}
