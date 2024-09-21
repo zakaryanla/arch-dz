@@ -1,4 +1,3 @@
-<h3>Архитектура</h3>
 <img width="700" alt="flask" src="https://github.com/user-attachments/assets/8d66702a-6ae6-4d25-989f-0ec0890c9065">
 <h3>Установка</h3>
 <h4>CRUD</h4>
