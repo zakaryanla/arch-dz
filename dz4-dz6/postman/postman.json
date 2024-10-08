@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "f63f91e9-d4c1-4dd5-8fc2-8a293fbe6003",
 		"name": "User Service",
-		"description": "This is simple client API\n\n\nContact Support:\n Email: schetinnikov@gmail.com",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "37766344"
 	},
