@@ -1,4 +1,4 @@
-![billing](https://github.com/user-attachments/assets/56501d53-d2b4-4741-8327-548ec00e012a)
+![billing](https://github.com/user-attachments/assets/082cea14-d9d3-47b8-bc37-493f38a4bbfe)
 
 <h3>Установка</h3>
 <body>
