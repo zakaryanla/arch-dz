@@ -4,4 +4,5 @@
 <body>
 <code>helm upgrade --install billing dz7\helm\billing -n billing
 helm upgrade --install order dz7\helm\order -n billing
-helm upgrade --install notifications dz7\helm\notifications -n billing<code/><body/>
+helm upgrade --install notifications dz7\helm\notifications -n billing
+helm install rabbitmq bitnami/rabbitmq --version 15.0.1 -n billing -f dz7\helm\rabbitmq\values.yaml<code/><body/>
