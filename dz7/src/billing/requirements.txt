@@ -1,0 +1,7 @@
+flask
+psycopg2-binary
+yandex-pgmigrate
+prometheus_flask_exporter
+prometheus_client
+gunicorn
+python-keycloak

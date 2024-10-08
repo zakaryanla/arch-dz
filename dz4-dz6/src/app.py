@@ -51,9 +51,6 @@ def accessDenied():
     return json.dumps({"message": "Отсутствуют права"},ensure_ascii = False)
 
 def create_user(data):
-    if 'username' not in data:
-        return json.dumps({"message": "Не передан логин"},ensure_ascii = False)
-
     id = check_user("username", data['username'])
     if id:
         return json.dumps({"message": "Пользователь существует"},ensure_ascii = False)
@@ -85,8 +82,7 @@ def oauth():
 
 @app.route('/api/getId', methods=['GET'])
 def getId():
-    user = request.headers.get('X-Auth-Request-Preferred-Username')
-    userInfo = check_user("username", user)
+    userInfo = check_user("username", login())
     
     return  json.dumps(userInfo,ensure_ascii = False)
 
