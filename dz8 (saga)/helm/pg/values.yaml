@@ -1,0 +1,19 @@
+# helm upgrade --install crud-db-postgresql -f helm\pg\values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql
+global:
+  postgresql:
+    auth:
+      postgresPassword: "pg"
+      username: "crudapi"
+      password: "a2dvxX32fds"
+      database: "crudapi"
+primary:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 2
+      memory: 2048Mi
+
+metrics:
+  enabled: true

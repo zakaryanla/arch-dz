@@ -1,0 +1,6 @@
+# helm install rabbitmq bitnami/rabbitmq --version 15.0.1 -n billing -f rabbitmq\values.yaml
+
+ingress:
+  enabled: true
+  hostname: arch-rmq.homework
+  ingressClassName: nginx

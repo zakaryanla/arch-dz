@@ -1,0 +1,22 @@
+# helm repo add colearendt https://helm.colearendt.com
+# helm install postgrest colearendt/postgrest --version 0.3.6 -n saga -f helm\postgrest\values.yaml
+
+image:
+  tag: v12.2.3
+postgrest:
+  dbUri: postgres://crudapi:a2dvxX32fds@10.105.78.67:5432/crudapi
+  jwtSecret: "dsfsdfsdg"
+  dbAnonRole: crudapi
+  dbSchema: "orderdb, storage, delivery, payment"
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: arch-pg.homework
+      paths:
+        - path: /
+          pathType: Prefix
+pod:
+  env:
+    - name: PGRST_DB_AGGREGATES_ENABLED
+      value: "True" 
