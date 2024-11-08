@@ -1,6 +1,6 @@
 <h1>SAGA</h1>
 
-![saga drawio](https://github.com/user-attachments/assets/ddc5e423-5cb1-4893-b911-efd81e0c54d2)
+![saga drawio](https://github.com/user-attachments/assets/19bcc8cc-e790-4b5e-9821-7820632d8b0d)
 
 <h2>Компоненты</h2>
 
