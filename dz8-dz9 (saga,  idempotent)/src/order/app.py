@@ -41,7 +41,7 @@ parameters = pika.ConnectionParameters(os.environ.get('RMQ_HOSTNAME', "localhost
                                     '/',    
                                     credentials)
     
-# {"date": "2025-02-02", "product": "pizza", "count": 2, "sum": 100}
+# {"date": "2025-02-02", "product": "pizza", "count": 2, "sum": 100, requestid: "67b04a0e-98da-40bc-a52e-22fda6a3b32f"}
 @app.route('/api/v1/order/buy', methods=['POST'])
 def buy():
     data = request.get_json(force=True)
@@ -53,20 +53,23 @@ def buy():
     print(f"Авторизация есть: {userid()}")
 
     data["user"] = f"{userid()}"
-    data["guid"] = str(uuid.uuid4())
+    data['guid'] = data.pop('requestid')
 
-    query_insert_history = f"insert into orderdb.history(userid, tr_guid, dt, cnt, product, sum, resault) values ('{data['user']}', '{data['guid']}', '{data['date']}',{data['count']}, '{data['product']}', {data['sum']}, 'created' ) "
-    execute(query_insert_history, True)
+    query_check = f"select 1 from orderdb.history where tr_guid = '{data['guid']}'"
+    query_check_res = execute(query_check, False)
+    if not query_check_res:
+        query_insert_history = f"insert into orderdb.history(userid, tr_guid, dt, cnt, product, sum, resault) values ('{data['user']}', '{data['guid']}', '{data['date']}',{data['count']}, '{data['product']}', {data['sum']}, 'created' ) "
+        execute(query_insert_history, True)
 
-    connection = pika.BlockingConnection(parameters)
-    channel = connection.channel()
-    channel.queue_declare(queue="storage",durable=True)
-    channel.basic_publish(exchange='',
-                      routing_key='storage',
-                      properties=properties,
-                      body=json.dumps(data,ensure_ascii = False))
-    connection.close()
-    print("Отправлено сообщение в MQ")
+        connection = pika.BlockingConnection(parameters)
+        channel = connection.channel()
+        channel.queue_declare(queue="storage",durable=True)
+        channel.basic_publish(exchange='',
+                        routing_key='storage',
+                        properties=properties,
+                        body=json.dumps(data,ensure_ascii = False))
+        connection.close()
+        print("Отправлено сообщение в MQ")
 
     resp = {}
     resp['message'] = "Запрос успешно принят"
