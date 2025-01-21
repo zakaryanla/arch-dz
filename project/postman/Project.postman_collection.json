@@ -1,0 +1,1904 @@
+{
+	"info": {
+		"_postman_id": "93f1bfbd-0ac7-4ed3-9a74-4d0830f8e3c3",
+		"name": "Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37766344"
+	},
+	"item": [
+		{
+			"name": "Регистр. и авторизация пользователя",
+			"item": [
+				{
+					"name": "Get admin token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(pm.response.text());\r",
+									"pm.collectionVariables.set(\"tokenAdminKK\", jsonData[\"access_token\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Токен получен\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "Adminlib",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "adminlib",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "sadsfASdcsdf",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "wZqn7HCVUy1RH8lgMywqddVPBBjV0XkT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://arch-kk.homework/realms/app/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"arch-kk",
+								"homework"
+							],
+							"path": [
+								"realms",
+								"app",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"tokenAdmin\", jsonData[\"access_token\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Успешная авторизация админа\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "oauth2proxy",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "patsy.lindgren22",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "cdscsd3252",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "WEhwD2KuOubBNeL5VrTFqJusMpmZD8LT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://arch-kk.homework/realms/app/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"arch-kk",
+								"homework"
+							],
+							"path": [
+								"realms",
+								"app",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User registration",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var username1 = pm.variables.replaceIn('{{$randomUserName}}')\r",
+									"var password1 =  pm.variables.replaceIn('{{$randomPassword}}')\r",
+									"\r",
+									"var firstName = pm.variables.replaceIn('{{$randomFirstName}}')\r",
+									"var lastName =  pm.variables.replaceIn('{{$randomLastName}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"username1\", username1)\r",
+									"pm.collectionVariables.set(\"password1\", password1)\r",
+									"\r",
+									"pm.collectionVariables.set(\"firstName\", firstName)\r",
+									"pm.collectionVariables.set(\"lastName\", lastName)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Зарегистрирован: \" + pm.collectionVariables.get('username1'), function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdminKK}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username1}}\",\r\n  \"email\": \"zakaryanla@gmail.com\",\r\n  \"enabled\": true,\r\n  \"firstName\": \"{{firstName}}\",\r\n  \"lastName\": \"{{lastName}}\",\r\n  \"credentials\": [{\r\n    \"type\": \"password\",\r\n    \"value\": \"{{password1}}\"\r\n  }],\r\n  \"attributes\": {\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://arch-kk.homework/admin/realms/app/users",
+							"protocol": "http",
+							"host": [
+								"arch-kk",
+								"homework"
+							],
+							"path": [
+								"admin",
+								"realms",
+								"app",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"token1\", jsonData[\"access_token\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Зашел: \" + pm.collectionVariables.get('username1'), function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"access_token\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "oauth2proxy",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{username1}}",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password1}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "WEhwD2KuOubBNeL5VrTFqJusMpmZD8LT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://arch-kk.homework/realms/app/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"arch-kk",
+								"homework"
+							],
+							"path": [
+								"realms",
+								"app",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Добавление и поиск книги",
+			"item": [
+				{
+					"name": "Добавляем книгу (не админ)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomFullName = pm.variables.replaceIn('{{$randomFullName}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomFullName\", randomFullName)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(jsonData[\"message\"]).to.include(\"Отсутствуют права\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book",
+									"type": "file",
+									"src": "postman-cloud:///1efce88f-e177-4900-93be-a037dc487dc6"
+								},
+								{
+									"key": "meta",
+									"value": "{\"price\": \"100\", \"lvl\": \"Essential\", \"summary\": \"Преступление и наказание\", \"description\": \"Роман в шести частях с эпилогом\", \"tags\": \"Книга, Достоевский, Роман\", \"author\": \"{{randomFullName}}\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/full",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"full"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавляем книгу (админ)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomFL = pm.variables.replaceIn('{{$randomFullName}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomFL\", randomFL)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"bookid\", jsonData[\"id\"]);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Книга успешно добавлена\");\r",
+									"});\r",
+									"\r",
+									"setTimeout(() => {}, 5000); \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book",
+									"type": "file",
+									"src": "postman-cloud:///1efce88f-e177-4900-93be-a037dc487dc6"
+								},
+								{
+									"key": "meta",
+									"value": "{\"price\": \"100\", \"lvl\": \"Essential\", \"summary\": \"Преступление и наказание\", \"description\": \"Роман в шести частях с эпилогом\", \"tags\": \"Книга, Достоевский, Роман\", \"author\": \"{{randomFL}}\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/full",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"full"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Поиск книги по автору (offset 0, limit 10))",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поиск книги по автору: \" + pm.collectionVariables.get('randomFL') + \". \\n Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(jsonData.length).to.equal(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/0/10/author/{{randomFL}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"0",
+								"10",
+								"author",
+								"{{randomFL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Поиск книги по автору (offset 10, limit 10)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поиск книги по автору: \" + pm.collectionVariables.get('randomFL') + \". \\n Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(jsonData.length).to.equal(0);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/10/10/author/{{randomFL}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"10",
+								"10",
+								"author",
+								"{{randomFL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Поиск книги по тегам (offset 0, limit 10))",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"_source\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/0/10/tags/Толстой",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"0",
+								"10",
+								"tags",
+								"Толстой"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновленияем описание",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"bookid\", jsonData[\"id\"]);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Данные успешно обновлены\");\r",
+									"});\r",
+									"\r",
+									"setTimeout(() => {}, 5000); \r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book",
+									"type": "file",
+									"src": "postman-cloud:///1efce88f-e177-4900-93be-a037dc487dc6"
+								},
+								{
+									"key": "meta",
+									"value": "{\"price\": \"100\", \"lvl\": \"Essential\", \"summary\": \"Преступление и наказание\", \"description\": \"Обновленное описание\", \"tags\": \"Книга, Достоевский, Роман\", \"author\": \"{{randomFL}}\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/full",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"full"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Проверка обновления и отсутствия дублей",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Обновленное описание\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Проверка длины массива\", function () {\r",
+									"    pm.expect(jsonData.length).to.equal(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search/0/10/author/{{randomFL}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"search",
+								"0",
+								"10",
+								"author",
+								"{{randomFL}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Покупка подписки",
+			"item": [
+				{
+					"name": "Добавляем книгу",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomFullName = pm.variables.replaceIn('{{$randomFullName}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomFullName\", randomFullName)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"bookid\", jsonData[\"id\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Книга успешно добавлена\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book",
+									"type": "file",
+									"src": "postman-cloud:///1efce88f-e177-4900-93be-a037dc487dc6"
+								},
+								{
+									"key": "meta",
+									"value": "{\"price\": \"100\", \"lvl\": \"Essential\", \"summary\": \"Преступление и наказание\", \"description\": \"Роман в шести частях с эпилогом\", \"tags\": \"Книга, Достоевский, Роман\", \"author\": \"{{randomFullName}}\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/full",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"full"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Запрос на чтение (нет подписки)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Отсутствуют права на книгу\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/{{bookid}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"{{bookid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Проверка баланса (0)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(jsonData['sum']).to.equal(0);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/balance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Пополнение баланса (1000)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomguid = pm.variables.replaceIn('{{$randomUUID}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomguid\", randomguid)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Успешно\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"guid\": \"{{randomguid}}\", \"sum\": 1000}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/balance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Покупка подписки",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Подписка создана\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"subscription\": \"Essential\", \"duration\": 2}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/subscription",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Повторная попытка покупки (неуспешно)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Подписка уже существует, дожидтесь окончания\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"subscription\": \"Essential\", \"duration\": 2}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/subscription",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Запрос на чтение (Успешно)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/{{bookid}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"{{bookid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Проверка баланса (800)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(jsonData['sum']).to.equal(800);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/balance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Покупка книги",
+			"item": [
+				{
+					"name": "Добавляем книгу",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomFullName = pm.variables.replaceIn('{{$randomFullName}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomFullName\", randomFullName)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"bookid\", jsonData[\"id\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Книга успешно добавлена\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book",
+									"type": "file",
+									"src": "postman-cloud:///1efce88f-e177-4900-93be-a037dc487dc6"
+								},
+								{
+									"key": "meta",
+									"value": "{\"price\": \"100\", \"lvl\": \"Premium\", \"summary\": \"Преступление и наказание\", \"description\": \"Роман в шести частях с эпилогом\", \"tags\": \"Книга, Достоевский, Роман\", \"author\": \"{{randomFullName}}\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/full",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"full"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Запрос на чтение (нет доступа)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Отсутствуют права на книгу\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/{{bookid}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"{{bookid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Покупка книги (-100)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Книга успешно куплена\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"book\": \"{{bookid}}\",\"sum\": -100}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/book",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Повторная покупка книги (отказ)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Книга уже куплена\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"book\": \"{{bookid}}\",\"sum\": -100}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/book",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Запрос на чтение (Успешно)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/{{bookid}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"{{bookid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Проверка баланса (700)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(jsonData['sum']).to.equal(700);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/payment/balance",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"payment",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Подписка на уведомления",
+			"item": [
+				{
+					"name": "Создаем книгу для подписки",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"bookid\", jsonData[\"id\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Книга успешно добавлена\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var randomFullName = pm.variables.replaceIn('{{$randomFullName}}')\r",
+									"\r",
+									"pm.collectionVariables.set(\"randomFullName\", randomFullName)\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"price\": \"100\", \"lvl\": \"Extra\", \"summary\": \"Война и мир\", \"description\": \"Книга о войне и мире 5\", \"tags\": \"Книга, Толстой, Роман\", \"author\": \"{{randomFullName}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/preview",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"preview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Создаем подписку",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Подписка создана\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token1}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"bookid\": \"{{bookid}}\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/subscriptions/subscription",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subscriptions",
+								"subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Добавляем книгу",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.collectionVariables.set(\"bookid\", jsonData[\"id\"]);\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ответ: \" + responseBody, function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Данные успешно обновлены\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "book",
+									"type": "file",
+									"src": "postman-cloud:///1efce88f-e177-4900-93be-a037dc487dc6"
+								},
+								{
+									"key": "meta",
+									"value": "{\"price\": \"100\", \"lvl\": \"Extra\", \"summary\": \"Война и мир\", \"description\": \"Книга о войне и мире 11\", \"tags\": \"Книга, Толстой, Роман\", \"author\": \"{{randomFullName}}\"}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/book/full",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"book",
+								"full"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username1",
+			"value": ""
+		},
+		{
+			"key": "password1",
+			"value": ""
+		},
+		{
+			"key": "firstName",
+			"value": ""
+		},
+		{
+			"key": "lastName",
+			"value": ""
+		},
+		{
+			"key": "tokenAdmin",
+			"value": ""
+		},
+		{
+			"key": "token1",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": "http://arch.homework",
+			"type": "string"
+		},
+		{
+			"key": "bookid",
+			"value": ""
+		},
+		{
+			"key": "randomFullName",
+			"value": ""
+		},
+		{
+			"key": "tokenAdminKK",
+			"value": ""
+		},
+		{
+			"key": "randomguid",
+			"value": ""
+		},
+		{
+			"key": "randomFL",
+			"value": ""
+		}
+	]
+}

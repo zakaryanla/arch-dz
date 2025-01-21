@@ -1,0 +1,71 @@
+# helm upgrade --install search helm\search -n lib
+fullnameOverride: "search"
+
+replicaCount: 1
+
+image:
+  repository: zakaryanla/search
+  pullPolicy: Always
+  tag: "v1.0"
+
+metrics:
+  enabled: true
+  path: /metrics
+  port: "8000"
+
+imagePullSecrets: []
+
+config:
+  GUNICORN_PROCESSES: "3"
+
+  RMQ_HOSTNAME: 10.111.183.32
+  RMQ_LOGIN: "search"
+  RMQ_PASS: "vcxDsxcv23xz"
+
+  ES_URL: "http://libes-elasticsearch:9200/"
+
+migrate:
+  enabled: false
+
+resources:
+  limits:
+    cpu: "1"
+    memory: "512Mi"
+  requests:
+    cpu: 100m
+    memory: "128Mi" 
+
+service:
+  type: ClusterIP
+  port: 5000
+
+ingress:
+  enabled: true
+  className: nginx
+  # annotations: 
+  #   nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
+  #   nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=http://$host/api/v1"
+  #   nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Preferred-Username, x-auth-request-email, authorization"
+  #   nginx.ingress.kubernetes.io/auth-request-set: "$id $upstream_http_x_auth_request_preferred_username"
+  #   nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+
+  hosts:
+    - host: "arch.homework"
+      paths:
+        - path: /api/v1/search
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+    scheme: HTTP
+  initialDelaySeconds: 10
+  timeoutSeconds: 10
+  periodSeconds: 30
+  successThreshold: 1
+  failureThreshold: 8

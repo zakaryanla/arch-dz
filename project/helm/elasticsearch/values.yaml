@@ -1,0 +1,23 @@
+# helm upgrade --install libes oci://registry-1.docker.io/bitnamicharts/elasticsearch -f helm\elasticsearch\values.yaml -n lib
+
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  hostname: arch-es.homework
+master:
+  masterOnly: false
+  replicaCount: 1
+data:
+  replicaCount: 0
+coordinating:
+  replicaCount: 0
+ingest:
+  replicaCount: 0
+  enabled: false
+resources:
+  requests:
+    cpu: "100m"
+    memory: "300Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1Gi"

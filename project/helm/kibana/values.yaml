@@ -1,0 +1,23 @@
+# helm upgrade -install kibana oci://registry-1.docker.io/bitnamicharts/kibana --namespace lib -f helm\kibana\values.yaml
+elasticsearch:
+  hosts:
+    - libes-elasticsearch
+  port: "9200"
+  security:
+    auth:
+      ## @param elasticsearch.security.auth.enabled Set to 'true' if Elasticsearch has authentication enabled
+      ##
+      enabled: false
+ingress:
+  ## @param ingress.enabled Enable ingress controller resource
+  ##
+  enabled: true
+  hostname: arch-kibana.homework
+  ingressClassName: "nginx"
+
+configuration:
+  server:
+    basePath: ""
+    host: "0.0.0.0"
+    publicBaseUrl: "http://arch-kibana.homework"
+    rewriteBasePath: false

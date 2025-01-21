@@ -1,0 +1,19 @@
+# helm upgrade --install db-postgresql -f helm\pg\values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n lib
+global:
+  postgresql:
+    auth:
+      postgresPassword: "pg"
+      username: "library"
+      password: "a2dvxX32fds"
+      database: "library"
+primary:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 2
+      memory: 2048Mi
+
+metrics:
+  enabled: true

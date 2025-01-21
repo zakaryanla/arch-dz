@@ -1,0 +1,83 @@
+# helm upgrade --install books helm\books -n lib
+fullnameOverride: "books"
+
+replicaCount: 1
+
+image:
+  repository: zakaryanla/books
+  pullPolicy: Always
+  tag: "v1.0"
+
+metrics:
+  enabled: true
+  path: /metrics
+  port: "8000"
+
+imagePullSecrets: []
+
+config:
+  PGHOST: '10.99.220.149'
+  PGPORT: '5432'
+  PGDATABASE: library
+  GUNICORN_PROCESSES: "3"
+
+  RMQ_HOSTNAME: 10.111.183.32
+  RMQ_LOGIN: "books"
+  RMQ_PASS: "vcxDsxcv23xz"
+
+  MINIO_URL: "minio:9000"
+  MINIO_ACCESS: SfuETSxNG3ATCL9Vo5lZ
+  MINIO_SECRET: GWah2A7g9IlL42KuYmg00cP9sYFJrsYYHvA7eaQA
+  MINIO_SECURE: "False"
+  PAYMENT_URL: "http://payment-service:5000/api/v1/payment/check"
+
+secrets:
+  PGUSER: library
+  PGPASSWORD: a2dvxX32fds
+
+migrate:
+  enabled: true
+  command: cd db && pgmigrate -t latest migrate -m books
+
+resources:
+  limits:
+    cpu: "1"
+    memory: "512Mi"
+  requests:
+    cpu: 100m
+    memory: "128Mi" 
+
+service:
+  type: ClusterIP
+  port: 5000
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: 
+    nginx.ingress.kubernetes.io/auth-url: "http://$host/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/oauth2/start?rd=http://$host/api/v1"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User, X-Auth-Request-Groups, X-Auth-Request-Preferred-Username, x-auth-request-email, authorization"
+    nginx.ingress.kubernetes.io/auth-request-set: "$id $upstream_http_x_auth_request_preferred_username"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+
+  hosts:
+    - host: "arch.homework"
+      paths:
+        - path: /api/v1/book
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+    scheme: HTTP
+  initialDelaySeconds: 5
+  timeoutSeconds: 10
+  periodSeconds: 30
+  successThreshold: 1
+  failureThreshold: 8

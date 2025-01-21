@@ -1,0 +1,15 @@
+# helm upgrade --install minio -f helm\minio\values.yaml oci://registry-1.docker.io/bitnamicharts/minio -n lib
+auth:
+  rootUser: admin
+  rootPassword: "sdfdsvvbffd"
+defaultBuckets: "lib"
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  hostname: arch-minio.homework
+apiIngress:
+  enabled: true
+  ingressClassName: "nginx"
+  hostname: arch-minio-api.homework
+metrics:
+  enabled: true

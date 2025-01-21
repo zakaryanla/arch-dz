@@ -1,0 +1,11 @@
+# helm repo add bitnami https://charts.bitnami.com/bitnami
+# helm upgrade -install keycloak oci://registry-1.docker.io/bitnamicharts/keycloak --version 22.2.4 --namespace kk -f helm\keycloak\values.yaml
+auth:
+  adminUser: admin
+  adminPassword: "sddgfd45sd"
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  hostname: arch-kk.homework
+metrics:
+  enabled: true

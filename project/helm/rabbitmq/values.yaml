@@ -1,0 +1,6 @@
+# helm upgrade --install rabbit oci://registry-1.docker.io/bitnamicharts/rabbitmq --version 15.0.1 -n lib -f helm\rabbitmq\values.yaml
+
+ingress:
+  enabled: true
+  hostname: arch-rmq.homework
+  ingressClassName: nginx
