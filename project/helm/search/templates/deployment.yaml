@@ -34,6 +34,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.fullnameOverride }}-cm
+            - secretRef:
+                name: {{ .Values.fullnameOverride }}-secret
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

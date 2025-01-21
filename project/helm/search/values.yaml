@@ -17,8 +17,9 @@ imagePullSecrets: []
 
 config:
   GUNICORN_PROCESSES: "3"
-
   RMQ_HOSTNAME: 10.111.183.32
+
+secrets:
   RMQ_LOGIN: "search"
   RMQ_PASS: "vcxDsxcv23xz"
 

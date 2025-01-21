@@ -22,18 +22,18 @@ config:
   GUNICORN_PROCESSES: "3"
 
   RMQ_HOSTNAME: 10.111.183.32
-  RMQ_LOGIN: "books"
-  RMQ_PASS: "vcxDsxcv23xz"
 
   MINIO_URL: "minio:9000"
-  MINIO_ACCESS: SfuETSxNG3ATCL9Vo5lZ
-  MINIO_SECRET: GWah2A7g9IlL42KuYmg00cP9sYFJrsYYHvA7eaQA
   MINIO_SECURE: "False"
   PAYMENT_URL: "http://payment-service:5000/api/v1/payment/check"
 
 secrets:
   PGUSER: library
   PGPASSWORD: a2dvxX32fds
+  RMQ_LOGIN: "books"
+  RMQ_PASS: "vcxDsxcv23xz"
+  MINIO_ACCESS: SfuETSxNG3ATCL9Vo5lZ
+  MINIO_SECRET: GWah2A7g9IlL42KuYmg00cP9sYFJrsYYHvA7eaQA
 
 migrate:
   enabled: true

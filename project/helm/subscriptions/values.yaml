@@ -20,27 +20,24 @@ config:
   PGPORT: '5432'
   PGDATABASE: library
   GUNICORN_PROCESSES: "3"
-
   RMQ_HOSTNAME: 10.111.183.32
-  RMQ_LOGIN: "subscriptions"
-  RMQ_PASS: "vcxDsxcv23xz"
-
   KEYCLOAK_URL: http://10.110.39.232/
+  SMTP_PORT: "465"
+  SMTP_SERVER: smtp.yandex.ru
+
+secrets:
+  PGUSER: library
+  PGPASSWORD: a2dvxX32fds
   KEYCLOAK_USER: adminlib
   KEYCLOAK_PASS: sadsfASdcsdf
   KEYCLOAK_REALM: app
   KEYCLOAK_CLIENT_ID: Adminlib
   KEYCLOAK_CLIENT_SECRET: wZqn7HCVUy1RH8lgMywqddVPBBjV0XkT
-
-  SMTP_PORT: "465"
-  SMTP_SERVER: smtp.yandex.ru
+  RMQ_LOGIN: "subscriptions"
+  RMQ_PASS: "vcxDsxcv23xz"
   SMTP_SENDER: zakaryanla@yandex.ru
   SMTP_PASS: 
-
-secrets:
-  PGUSER: library
-  PGPASSWORD: a2dvxX32fds
-
+  
 migrate:
   enabled: true
   command: cd db && pgmigrate -t latest migrate -m nf
